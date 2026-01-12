@@ -1,0 +1,105 @@
+%
+% Copyright (C) SJTUG
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3c of this license or (at your option) any later
+% version. The latest version of this license is in:
+%
+%   http://www.latex-project.org/lppl.txt
+%
+% and version 1.3 or later is part of all distributions of
+% LaTeX version 2005/12/01 or later.
+%
+\ProvidesPackage{sjtutex-markdown}[2026/1/12 v0.1.0 sjtutex-markdown package]
+\NeedsTeXFormat{LaTeX2e}[2024-06-01]
+
+\let\Bbbk\relax % hack for sjtutex
+
+% make H available
+\RequirePackage{float}
+
+% make table `h' for here
+\makeatletter
+\renewcommand*{\fps@table}{H}
+\makeatother
+
+% code highlighting
+\RequirePackage{minted}
+\setminted{linenos}
+
+% citation definition
+\newcount\citationsCounter
+\newcount\citationsTotal
+\def\citationsList{}
+\def\addToCitationsList#1{%
+    \ifx\citationsList\empty
+        \def\citationsList{#1}%
+    \else
+        \edef\citationsList{\citationsList,#1}%
+    \fi
+}
+\def\flushCitationsList{%
+    \ifx\citationsList\empty\else
+        \expandafter\cite\expandafter{\citationsList}%
+        \def\citationsList{}%
+    \fi
+}
+\def\citations#1#2#3#4{%
+    \ifx\relax#2\relax
+        \ifx\relax#3\relax
+            \addToCitationsList{#4}%
+        \else
+            \flushCitationsList
+            \cite[#2][#3]{#4}%
+        \fi
+    \else
+        \flushCitationsList
+        \cite[#2][#3]{#4}%
+    \fi
+    \advance\citationsCounter by 1\relax%
+    \ifnum\citationsCounter>\citationsTotal\relax
+        \flushCitationsList
+    \else\expandafter\citations\fi%
+}
+
+
+% setup markdown
+\RequirePackage[
+    cacheDir=cache,
+    underscores=false,
+    fencedCode,
+    contentBlocks,
+    pipeTables,
+    tableCaptions,      % add caption to tables
+    contentBlocks,
+    % rawAttribute,
+    texMathDollars,
+    texMathSingleBackslash,
+    texMathDoubleBackslash,
+    notes,              
+    gfmAutoIdentifiers,
+    citations,
+]{markdown}
+\markdownSetup{%
+    renderers = {
+        image = {%
+            \begin{figure}[H]
+                \centering
+                \includegraphics{#2}
+                \caption{#1}
+            \end{figure}
+        }, % make the caption of the figure
+        link = {\href{#3}{#1}}, % instead of footnote
+        blockQuoteBegin = {\begin{quote}\itshape},
+        blockQuoteEnd = {\end{quote}},
+        cite = {%
+            \citationsCounter=1%
+            \citationsTotal=#1%
+            \expandafter\citations
+        },
+    }
+}
+
+% hyperref for links
+\RequirePackage{hyperref}
