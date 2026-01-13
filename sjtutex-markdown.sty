@@ -27,8 +27,7 @@
 \makeatother
 
 % code highlighting
-\RequirePackage{minted}
-\setminted{linenos}
+\RequirePackage[cachedir=cache]{minted}
 
 % citation definition
 \newcount\citationsCounter
@@ -71,6 +70,7 @@
     cacheDir=cache,
     underscores=false,
     fencedCode,
+    fencedCodeAttributes,
     contentBlocks,
     pipeTables,
     tableCaptions,      % add caption to tables
