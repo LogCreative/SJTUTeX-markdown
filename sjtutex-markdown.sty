@@ -16,8 +16,10 @@
 
 \let\Bbbk\relax % hack for sjtutex
 
-% make H available
+% make H available, place the table caption to the top
 \RequirePackage{float}
+\floatstyle{plaintop}
+\restylefloat{table}
 
 % make table `h' for here
 \makeatletter
@@ -92,7 +94,6 @@
             \end{figure}
         }, % make the caption of the figure
         link = {\href{#3}{#1}}, % instead of footnote
-        image = {\begin{figure}[H]\centering\includegraphics{#2}\caption{#1}\end{figure}},
         imageAttributeContextBegin = {
             \group_begin:
             \markdownSetup{
