@@ -34,90 +34,76 @@
 \newcount\citationsTotal
 \def\citationsList{}
 \def\addToCitationsList#1{%
-    \ifx\citationsList\empty
-        \def\citationsList{#1}%
-    \else
-        \edef\citationsList{\citationsList,#1}%
-    \fi
+  \ifx\citationsList\empty
+    \def\citationsList{#1}%
+  \else
+    \edef\citationsList{\citationsList,#1}%
+  \fi
 }
 \def\flushCitationsList{%
-    \ifx\citationsList\empty\else
-        \expandafter\cite\expandafter{\citationsList}%
-        \def\citationsList{}%
-    \fi
+  \ifx\citationsList\empty\else
+    \expandafter\cite\expandafter{\citationsList}%
+    \def\citationsList{}%
+  \fi
 }
 \def\citations#1#2#3#4{%
-    \ifx\relax#2\relax
-        \ifx\relax#3\relax
-            \addToCitationsList{#4}%
-        \else
-            \flushCitationsList
-            \cite[#2][#3]{#4}%
-        \fi
+  \ifx\relax#2\relax
+    \ifx\relax#3\relax
+      \addToCitationsList{#4}%
     \else
-        \flushCitationsList
-        \cite[#2][#3]{#4}%
+      \flushCitationsList
+      \cite[#2][#3]{#4}%
     \fi
-    \advance\citationsCounter by 1\relax%
-    \ifnum\citationsCounter>\citationsTotal\relax
-        \flushCitationsList
-    \else\expandafter\citations\fi%
+  \else
+    \flushCitationsList
+    \cite[#2][#3]{#4}%
+  \fi
+  \advance\citationsCounter by 1\relax%
+  \ifnum\citationsCounter>\citationsTotal\relax
+    \flushCitationsList
+  \else\expandafter\citations\fi%
 }
 
 
 % setup markdown
 \RequirePackage[
-    cacheDir=cache,
-    underscores=false,
-    fencedCode,
-    fencedCodeAttributes,
-    contentBlocks,
-    pipeTables,
-    tableCaptions,      % add caption to tables
-    contentBlocks,
-    % rawAttribute,
-    texMathDollars,
-    texMathSingleBackslash,
-    texMathDoubleBackslash,
-    notes,              
-    gfmAutoIdentifiers,
-    linkAttributes,
-    citations,
+  cacheDir=cache,
+  underscores=false,
+  fencedCode,
+  fencedCodeAttributes,
+  contentBlocks,
+  pipeTables,
+  tableCaptions,      % add caption to tables
+  tableAttributes,
+  contentBlocks,
+  % rawAttribute,
+  texMathDollars,
+  texMathSingleBackslash,
+  texMathDoubleBackslash,
+  notes,
+  citations,
+  headerAttributes,
+  relativeReferences,
+  linkAttributes,
 ]{markdown}
 \markdownSetup{%
-    renderers = {
-        image = {%
-            \begin{figure}[H]
-                \centering
-                \includegraphics{#2}
-                \caption{#1}
-            \end{figure}
-        }, % make the caption of the figure
-        link = {\href{#3}{#1}}, % instead of footnote
-        imageAttributeContextBegin = {
-            \group_begin:
-            \markdownSetup{
-                renderers = {
-                attributeKeyValue = {
-                    \setkeys
-                    { Gin }
-                    { { ##1 } = { ##2 } }
-                },
-                },
-            }
-            },
-        imageAttributeContextEnd = {
-            \group_end:
-        },
-        blockQuoteBegin = {\begin{quote}\itshape},
-        blockQuoteEnd = {\end{quote}},
-        cite = {%
-            \citationsCounter=1%
-            \citationsTotal=#1%
-            \expandafter\citations
-        },
-    }
+  renderers = {
+    blockQuoteBegin = {\begin{quote}\itshape},
+    blockQuoteEnd = {\end{quote}},
+    cite = {%
+      \citationsCounter=1%
+      \citationsTotal=#1%
+      \expandafter\citations
+    },
+  }
+}
+
+% use \href for links instead of footnotes
+% without breaking the cross-reference links
+\def\markdownLaTeXRendererDirectOrIndirectLink#1#2#3#4{%
+  \href{#3}{#1}%
 }
 
 % hyperref for links
 \RequirePackage{hyperref}
+
