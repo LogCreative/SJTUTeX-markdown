@@ -330,3 +330,6 @@ cache/
 
 # generated PDF files
 *.pdf
+
+# LuaLaTeX auxiliary files
+*.luabridge.lua
