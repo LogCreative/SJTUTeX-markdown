@@ -25,9 +25,19 @@
 \makeatletter
 \renewcommand*{\fps@table}{H}
 \makeatother
+\RequirePackage{booktabs}
 
 % code highlighting
 \RequirePackage[cachedir=cache]{minted}
+\usemintedstyle{default}
+\setminted{
+    fontsize=\zihao{6},
+    linenos=false,
+    tabsize=2,
+    breaklines=false,
+    bgcolor=gray!10,
+    mathescape=true
+}
 
 % citation definition
 \newcount\citationsCounter
