@@ -1,0 +1,104 @@
+% !TEX program = lualatex
+
+% 载入 SJTUThesis 模版
+\documentclass[type=master]{sjtuthesis}
+% 选项
+%   type=[doctor|master|bachelor],     % 可选（默认：master），论文类型
+%   zihao=[-4|5],                      % 可选（默认：-4），正文字号大小
+%   lang=[zh|en|de|ja],                % 可选（默认：zh），论文的主要语言
+%   review,                            % 可选（默认：关闭），盲审模式
+%   [twoside|oneside],                 % 可选（默认：twoside），双页或单页边距模式
+%   [openright|openany],               % 可选（默认：openright），奇数页或任意页开始新章
+%   math-style=[ISO|TeX],              % 可选 (默认：ISO)，数学符号样式
+
+\usepackage{sjtutex-markdown}
+
+% 基础设置
+\sjtusetupyaml{contents/thesis-setup.yaml}
+
+% 将内容路径加入图像搜索路径，以便插入图片和预览文档
+\graphicspath{{contents/}}
+
+% 参考文献设置
+\usepackage[backend=biber,style=gb7714-2015]{biblatex}
+\addbibresource{ref.bib}
+
+\begin{document}
+
+%TC:ignore
+
+% 标题页
+\maketitle
+
+% % 原创性声明及使用授权书
+% \copyrightpage
+% % 插入外置原创性声明及使用授权书
+% % 此时必须在导言区使用 \usepackage{pdfpages}
+% % \copyrightpage[file=scans/sample-copyright-a.pdf]
+
+% % 前置部分
+% \frontmatter
+
+% % 摘要
+% \input{contents/abstract}
+
+% % 目录
+% \tableofcontents
+% % 插图索引
+% \listoffigures
+% % 表格索引
+% \listoftables
+% % 算法索引
+% \listofalgorithms
+
+% % 符号对照表
+% \input{contents/nomenclature}
+
+% %TC:endignore
+
+% % 主体部分
+% \mainmatter
+
+% % 正文内容
+% \input{contents/intro}
+% \input{contents/math_and_citations}
+% \input{contents/floats}
+% \input{contents/summary}
+
+% %TC:ignore
+
+% % 参考文献
+% \printbibliography[heading=bibintoc]
+
+% % 附录
+% \appendix
+
+% % 附录中图表不加入索引
+% \captionsetup{list=no}
+
+% % 附录内容
+% \input{contents/app_maxwell_equations}
+% \input{contents/app_flow_chart}
+
+% % 结尾部分
+% \backmatter
+
+% % 用于盲审的论文需隐去致谢、发表论文、科研成果、简历
+
+% % 致谢
+% \input{contents/acknowledgements}
+
+% % 发表论文及科研成果
+% % 盲审论文中，发表论文及科研成果等仅以第几作者注明即可，不要出现作者或他人姓名
+% \input{contents/achievements}
+
+% % 简历
+% \input{contents/resume}
+
+% % 学士学位论文要求在最后有一个大摘要，单独编页码
+% % 如果撰写学士学位论文，请取消下一行的注释
+% % \input{contents/digest}
+
+%TC:endignore
+
+\end{document}

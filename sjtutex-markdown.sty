@@ -11,7 +11,7 @@
 % and version 1.3 or later is part of all distributions of
 % LaTeX version 2005/12/01 or later.
 %
-\ProvidesExplPackage{sjtutex-markdown}{2026-01-13}{0.1.0}{sjtutex-markdown package}
+\ProvidesPackage{sjtutex-markdown}[2026-05-08 sjtutex-markdown package v0.2.0]
 \NeedsTeXFormat{LaTeX2e}[2024-06-01]
 
 \let\Bbbk\relax % hack for sjtutex
@@ -112,6 +112,46 @@
 % without breaking the cross-reference links
 \def\markdownLaTeXRendererDirectOrIndirectLink#1#2#3#4{%
   \href{#3}{#1}%
+}
+
+% convert yaml file to sjtusetup keyval options
+% #1: yaml file path
+\newcommand{\sjtusetupyaml}[1]{
+  \directlua{
+    local data
+    local ran_ok, _ = pcall(function()
+      local tinyyaml = require("tinyyaml")
+      local file = io.open("#1", "r")
+      if not file then
+        return
+      end
+      local content = file:read("*a")
+      file:close()
+      data = tinyyaml.parse(content, {timestamps=false})
+    end)
+    if ran_ok and data ~= nil then
+      local function serialize_opts(t)
+        local opts = {}
+        for k, v in pairs(t) do
+          if type(v) == "table" then
+            table.insert(opts, k .. "={" .. serialize_opts(v) .. "}")
+          elseif type(v) == "boolean" then
+            if v then
+              table.insert(opts, k)
+            else
+              table.insert(opts, k .. "=false")
+            end
+          else
+            table.insert(opts, k .. "={" .. tostring(v) .. "}")
+          end
+        end
+        return table.concat(opts, ",")
+      end
+      tex.sprint("\\sjtusetup{" .. serialize_opts(data) .. "}")
+    else
+      tex.error("Failed to parse YAML file: " .. "#1")
+    end
+  }
 }
 
 % hyperref for links
