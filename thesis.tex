@@ -1,7 +1,7 @@
 % !TEX program = lualatex
 
 % 载入 SJTUThesis 模版
-\documentclass[type=master]{sjtuthesis}
+\documentclass[type=master,math-style=TeX]{sjtuthesis}
 % 选项
 %   type=[doctor|master|bachelor],     % 可选（默认：master），论文类型
 %   zihao=[-4|5],                      % 可选（默认：-4），正文字号大小
@@ -30,74 +30,95 @@
 % 标题页
 \maketitle
 
-% % 原创性声明及使用授权书
-% \copyrightpage
-% % 插入外置原创性声明及使用授权书
-% % 此时必须在导言区使用 \usepackage{pdfpages}
-% % \copyrightpage[file=scans/sample-copyright-a.pdf]
+% 原创性声明及使用授权书
+\copyrightpage
+% 插入外置原创性声明及使用授权书
+% 此时必须在导言区使用 \usepackage{pdfpages}
+% \copyrightpage[file=scans/sample-copyright-a.pdf]
 
-% % 前置部分
-% \frontmatter
+% 前置部分
+\frontmatter
 
-% % 摘要
-% \input{contents/abstract}
+% 摘要
+\begin{abstract}[zh]
+    \markdownInput{contents/thesis-abstract-zh.md}
+\end{abstract}
+\begin{abstract}[en]
+    \markdownInput{contents/thesis-abstract-en.md}
+\end{abstract}
 
-% % 目录
-% \tableofcontents
-% % 插图索引
-% \listoffigures
-% % 表格索引
-% \listoftables
-% % 算法索引
-% \listofalgorithms
+% 目录
+\tableofcontents
+% 插图索引
+\listoffigures
+% 表格索引
+\listoftables
 
-% % 符号对照表
-% \input{contents/nomenclature}
+%TC:endignore
 
-% %TC:endignore
+% 主体部分
+\mainmatter
 
-% % 主体部分
-% \mainmatter
+% 正文内容
+\markdownInput{contents/thesis-mainmatter.md}
 
-% % 正文内容
-% \input{contents/intro}
-% \input{contents/math_and_citations}
-% \input{contents/floats}
-% \input{contents/summary}
+%TC:ignore
 
-% %TC:ignore
+% 参考文献
+\printbibliography[heading=bibintoc]
 
-% % 参考文献
-% \printbibliography[heading=bibintoc]
+% 附录
+\appendix
 
-% % 附录
-% \appendix
+% 附录中图表不加入索引
+\captionsetup{list=no}
 
-% % 附录中图表不加入索引
-% \captionsetup{list=no}
+% 附录内容
 
-% % 附录内容
-% \input{contents/app_maxwell_equations}
-% \input{contents/app_flow_chart}
+% 符号对照表
+\begin{nomenclature}
+  \begin{center}
+    \markdownInput{contents/thesis-nomenclature.md}
+  \end{center}
+\end{nomenclature}
 
-% % 结尾部分
-% \backmatter
+% 结尾部分
+\backmatter
 
-% % 用于盲审的论文需隐去致谢、发表论文、科研成果、简历
+% 用于盲审的论文需隐去致谢、发表论文、科研成果、简历
 
-% % 致谢
-% \input{contents/acknowledgements}
+% 致谢
+\begin{acknowledgements}
+  \markdownInput{contents/thesis-acknowledgements.md}
+\end{acknowledgements}
 
-% % 发表论文及科研成果
-% % 盲审论文中，发表论文及科研成果等仅以第几作者注明即可，不要出现作者或他人姓名
-% \input{contents/achievements}
+% 发表论文及科研成果
+% 盲审论文中，发表论文及科研成果等仅以第几作者注明即可，不要出现作者或他人姓名
+\begin{achievements}
+  \subsection*{学术论文}
+  \begin{bibliolist}{00}
+    \item Chen H, Chan C~T. Acoustic cloaking in three dimensions using acoustic metamaterials[J]. Applied Physics Letters, 2007, 91:183518.
+    \item Chen H, Wu B~I, Zhang B, et al. Electromagnetic Wave Interactions with a Metamaterial Cloak[J]. Physical Review Letters, 2007, 99(6):63903.
+  \end{bibliolist}
+  \begin{bibliolist*}{00}
+    \item 第一作者. 中文核心期刊论文, 2007.
+    \item 第一作者. EI 国际会议论文, 2006.
+  \end{bibliolist*}
 
-% % 简历
-% \input{contents/resume}
+  \subsection*{专利}
+  \begin{bibliolist}{00}
+    \item 第一发明人，“永动机”，专利申请号202510149890.0
+  \end{bibliolist}
+  \begin{bibliolist*}{00}
+    \item 第一发明人，“永动机”，专利申请号XXXXXXXXXXXX.X
+  \end{bibliolist*}
+\end{achievements}
 
-% % 学士学位论文要求在最后有一个大摘要，单独编页码
-% % 如果撰写学士学位论文，请取消下一行的注释
-% % \input{contents/digest}
+% 学士学位论文要求在最后有一个大摘要，单独编页码
+% 如果撰写学士学位论文，请取消下一行的注释
+\begin{digest}
+  \markdownInput{contents/thesis-digest.md}
+\end{digest}
 
 %TC:endignore
 
